@@ -1,164 +1,164 @@
 # OC fluffyTouch
 
-**Die Sprachschicht für deine bestehende OpenCode-Sitzung auf dem iPhone.**
+**A voice layer for your existing OpenCode session on iPhone.**
 
-OC fluffyTouch ergänzt die OpenCode-Weboberfläche, die bereits läuft, um Diktat, Vorlesen und ein Live-Gespräch. Es ersetzt die Oberfläche nicht und startet keine zweite OpenCode-Instanz. Der native Chat bleibt erhalten; die Sprachfunktionen kommen über einen lokalen Proxy dazu.
+OC fluffyTouch adds dictation, read-aloud, and a live conversation to the OpenCode web UI you already run. It does not replace the UI or start a second OpenCode instance. The native chat stays; a local proxy adds the voice features.
 
 <p align="center">
-  <img src="docs/screenshots/00-hero.png" alt="Drei App-Ansichten: Vorlesen, Sprachmodi und Live-Gespräch" width="900">
+  <img src="docs/screenshots/00-hero.png" alt="Three app views: read-aloud, voice modes, and live conversation" width="900">
 </p>
 
-*Alle Screenshots zeigen eine Demo-Sitzung ohne private Inhalte.*
+*All screenshots show a demo session without private content.*
 
-## Warum OC fluffyTouch?
+## Why OC fluffyTouch?
 
-Auf dem iPhone ist ein Coding-Chat schnell ein Kompromiss: lange Anweisungen tippen, lange Antworten scrollen und zwischen Chat und Sprachassistent wechseln. OC fluffyTouch schließt diese Lücke, ohne die gewohnte OpenCode-Oberfläche zu verlassen.
+Coding chat on iPhone is often a compromise: type long instructions, scroll through long answers, and switch between the chat and a voice assistant. OC fluffyTouch closes that gap without leaving the familiar OpenCode UI.
 
-- **Diktieren statt tippen.** Du sprichst deine Anweisung, siehst den Zwischenstand und behältst den editierbaren Entwurf. Gesendet wird erst, wenn du es willst.
-- **Vorlesen statt scrollen.** Du hörst die komplette Antwort, pausierst an einer Stelle und setzt fort. Der Sprecher sitzt direkt neben „Kopieren“.
-- **Live klären statt umschreiben.** Du besprichst eine Idee im Live-Gespräch. Erst wenn du den Auftrag ausdrücklich übergibst, bekommt der Coding-Chat den präzisen Text.
-- **Eine Oberfläche.** Kein zweites OpenCode, kein Ersatz-Frontend, keine zusätzlichen Modellkonten. Die native Sitzung, ihre Modelle und ihre Dateien bleiben.
+- **Dictate instead of type.** Speak your instruction, watch the live transcript, and keep an editable draft. Nothing is sent until you send it.
+- **Listen instead of scroll.** Hear the full answer, pause at any point, and continue. The speaker sits right next to “Copy”.
+- **Clarify live instead of rewriting.** Discuss an idea in the live conversation. Only when you explicitly hand off the task does the coding chat receive the precise text.
+- **One UI.** No second OpenCode, no replacement frontend, no extra model accounts. The native session, its models, and its files remain the source of truth.
 
-## Direkt starten
+## Quick start
 
-ZIP in einen beschreibbaren Ordner entpacken, PowerShell in diesem Ordner öffnen:
+Unzip into a writable folder and open PowerShell in that folder:
 
 ```powershell
 .\Install-OCFluffyTouch.ps1
 ```
 
-Der Installer fragt nach dem Ziel (**Standalone** oder **OpenCode**) und nach den gewünschten Funktionen. Er verwendet vorhandene Komponenten, installiert fehlende Projektpakete nach Rückfrage und nennt die Schritte für externe Dienste. Mit `-Check` prüft er nur, ohne zu schreiben.
+The installer asks for the target (**Standalone** or **OpenCode**) and the features you want. It reuses existing components, installs missing project packages after asking, and explains the steps for external services. With `-Check` it only validates and writes nothing.
 
-Für die iPhone-Nutzung startest du danach die gekoppelte private Route:
+To use the iPhone setup, start the paired private route:
 
 ```powershell
 .\Start-OpenCodeTouch.ps1 -Pair
 ```
 
-Den angezeigten Einmal-Link direkt in Safari auf dem iPhone öffnen. Nicht speichern, weitergeben oder in eine Cloud umleiten. [Ablauf, Startbefehle und Fehlerhilfe](docs/installation.md).
+Open the one-time link directly in Safari on the iPhone. Do not save, share, or redirect it to a cloud service. [Full walkthrough, start commands, and troubleshooting](docs/installation.md).
 
-## Funktionen und Nutzen
+## Features and benefits
 
-| Funktion | Was du gewinnst | Voraussetzung |
+| Feature | What you gain | Requirements |
 | --- | --- | --- |
-| **Diktat** | Lange Anweisungen sprechen statt tippen, mit editierbarem Entwurf | Python, Parakeet INT8 auf der CPU |
-| **Vorlesen** | Antworten hören, pausieren, fortsetzen, stoppen | Python und ein kompatibler OmniVoice-Dienst |
-| **Live-Gespräch** | Fragen und Ideen im Sprachdialog klären, ohne den Chat zu verlassen | OpenCode-Integration, Diktat und Vorlesen |
-| **Coding-Übergabe** | Nur der ausdrücklich gewünschte Auftrag landet im Hauptchat | Live-Gespräch |
-| **Auto-Voice** | Nach Abschluss eine kurze Zusammenfassung hören | OpenCode-Integration und Vorlesen |
-| **Sprachsteuerung** | Stimme, Profil, Modell und Thinking per Sprache abfragen oder ändern | Live-Gespräch |
-| **Zweitmeinung** | Beratung einholen, ohne den Coding-Chat zu starten | Live-Gespräch und ein verfügbares Modell |
-| **Voice-Erinnerungen** | Bestätigte Vorlieben über Sitzungen hinweg behalten | Live-Gespräch, SQLite, `js-tiktoken` |
-| **Verlaufslog** | Zeiten und bestätigte Schritte aus Hauptchat und Live vergleichen | OpenCode-Integration; Live ist optional |
+| **Dictation** | Speak long instructions instead of typing, with an editable draft | Python, Parakeet INT8 on CPU |
+| **Read-aloud** | Hear answers, pause, resume, stop | Python and a compatible OmniVoice service |
+| **Live conversation** | Clarify questions and ideas by voice without leaving the chat | OpenCode integration, dictation, and read-aloud |
+| **Coding handoff** | Only the task you explicitly hand off reaches the main chat | Live conversation |
+| **Auto-Voice** | Hear a short summary after an answer completes | OpenCode integration and read-aloud |
+| **Voice controls** | Query or change voice, profile, model, and thinking by voice | Live conversation |
+| **Second opinion** | Get advice without starting the coding chat | Live conversation and an available model |
+| **Voice memories** | Keep confirmed preferences across sessions | Live conversation, SQLite, `js-tiktoken` |
+| **History log** | Compare timestamps and confirmed steps from main chat and Live | OpenCode integration; Live is optional |
 
-### Diktat
+### Dictation
 
-**Was es tut:** Die Spracheingabe läuft direkt im Composer. Ein AudioWorklet übergibt die Audio-Frames in kleinen Blöcken, der Zwischenstand erscheint wortweise, und nach dem Stopp bleibt der Text als bearbeitbarer Entwurf stehen. Wer während der Aufnahme auf Senden tippt, wartet auf den Endtext, statt einen halben Satz abzuschicken.
+**What it does:** Dictation runs directly in the composer. An AudioWorklet hands audio frames over in small blocks, the partial transcript appears word by word, and the text remains an editable draft after you stop. If you tap Send while recording, the adapter waits for the final text instead of sending half a sentence.
 
-**Warum es hilft:** Du formulierst eine Coding-Anweisung in einem Zug, ohne auf der iPhone-Tastatur zu kämpfen. Du siehst sofort, was ankam, und kannst den Entwurf korrigieren, bevor er in den Chat geht. Ein Verbindungsabbruch lässt den bisherigen Text stehen.
+**Why it helps:** You can phrase a coding instruction in one pass without fighting the iPhone keyboard. You see immediately what arrived and can correct the draft before it goes to the chat. A dropped connection leaves the existing dictation in place.
 
-**Braucht:** Python und das Parakeet-Modell (INT8, CPU). Die Modelldateien können bei der Installation nach deiner Zustimmung aus der offiziellen Quelle geladen werden.
-
-<p align="center">
-  <img src="docs/screenshots/04-diktat.png" alt="Diktat im Composer: Aufnahme läuft, der Entwurf bleibt editierbar" width="360">
-</p>
-
-### Vorlesen
-
-**Was es tut:** Neben „Antwort kopieren“ sitzt ein Sprecher. Er liest die komplette Antwort vor, lässt sich pausieren, fortsetzen und stoppen. Das Audio bleibt für zwei neuere Antworten erhalten; danach wird es aufgeräumt. Auto-Voice liest eine separate kurze Zusammenfassung und ist nicht gleichzeitig mit Live aktiv.
-
-**Warum es hilft:** Lange Code-Antworten lassen sich hören, während du sie auf dem Bildschirm liest. Du musst nicht die ganze Antwort im Kopf behalten oder erneut hochscrollen. Pausieren und Fortsetzen bleiben an deiner Stelle.
-
-**Braucht:** Python und einen OmniVoice-kompatiblen Dienst, der rohes PCM über `POST /tts/stream` liefert. [OmniVoice separat einrichten](docs/omnivoice.md).
+**Requires:** Python and the Parakeet model (INT8, CPU). During installation, the model files can be downloaded from the official source after your approval.
 
 <p align="center">
-  <img src="docs/screenshots/01-vorlesen.png" alt="Antwort mit Sprecher, Kopieren und Zeitangabe" width="360">
+  <img src="docs/screenshots/04-dictation.png" alt="Dictation in the composer: recording is active and the draft stays editable" width="360">
 </p>
 
-### Live-Gespräch
+### Read-aloud
 
-**Was es tut:** Ein eigenes Panel neben dem Hauptchat nimmt deine Sprache auf, zeigt den Stand („Höre zu …“, „Warte auf fertige Antwort …“) und führt einen natürlichen Dialog. Das Live-Gespräch erzeugt keine Aufträge. Es kann eine Frage stellen, eine Idee präzisieren und auf einen Punkt begrenzen.
+**What it does:** A speaker sits next to “Copy answer”. It reads the complete answer aloud and can be paused, resumed, and stopped. Audio is retained for two newer answers and then cleaned up. Auto-Voice reads a separate short summary and cannot run at the same time as Live.
 
-**Warum es hilft:** Du klärst erst im Gespräch, was du eigentlich willst, statt einen unfertigen Prompt in den Coding-Chat zu schicken. Der Hauptchat bleibt sichtbar; du kannst jederzeit zurückwechseln. Ein Folgeauftrag kann in die Queue gehen, während die Hauptsitzung arbeitet.
+**Why it helps:** You can listen to long code answers while reading them on screen. You do not have to keep the whole answer in your head or scroll back up. Pause and resume stay at your position.
 
-**Braucht:** OpenCode-Integration, Diktat und Vorlesen.
+**Requires:** Python and an OmniVoice-compatible service that returns raw PCM via `POST /tts/stream`. [Set up OmniVoice separately](docs/omnivoice.md).
 
 <p align="center">
-  <img src="docs/screenshots/02-sprachmodi.png" alt="Sprachmodi: Aus, Live-Gespräch und Auto-Voice" width="360">
+  <img src="docs/screenshots/01-read-aloud.png" alt="Answer with speaker, copy action, and duration" width="360">
+</p>
+
+### Live conversation
+
+**What it does:** A separate panel next to the main chat captures your voice, shows the current state (“Listening …”, “Waiting for the answer …”), and holds a natural dialogue. The live conversation does not create tasks. It can ask a question, sharpen an idea, or narrow the scope.
+
+**Why it helps:** You clarify what you actually want before sending an unfinished prompt to the coding chat. The main chat stays visible and you can return at any time. A follow-up task can queue while the main session is working.
+
+**Requires:** OpenCode integration, dictation, and read-aloud.
+
+<p align="center">
+  <img src="docs/screenshots/02-voice-modes.png" alt="Voice modes: off, live conversation, and Auto-Voice" width="360">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/03-live-gespraech.png" alt="Live-Gespräch mit Status und Rücksprung zum Hauptchat" width="360">
+  <img src="docs/screenshots/03-live-conversation.png" alt="Live conversation with status and return to the main chat" width="360">
 </p>
 
-### Coding-Übergabe
+### Coding handoff
 
-**Was es tut:** Nur wenn du den Auftrag ausdrücklich übergibst, schickt die App eine präzise Formulierung plus den nötigen Kontext an den Hauptchat. Die Live-Mitschrift, private Erinnerungen und beiläufige Bemerkungen bleiben draußen. Die App liest den tatsächlich angenommenen Text vor und unterscheidet Annahme, Ausführung und inhaltliche Antwort.
+**What it does:** Only when you explicitly hand off the task does the app send a precise formulation plus the required context to the main chat. The live transcript, private memories, and casual remarks stay out. The app reads back the text that was actually admitted and distinguishes admission, execution, and the substantive answer.
 
-**Warum es hilft:** Der Coding-Chat bekommt genau die Aufgabe, die du geklärt hast, und keinen Gesprächsmüll. Du kannst eine frühere Frage wörtlich übernehmen lassen oder auf die vorhandene Nachricht verweisen, ohne sie doppelt einzureihen. Ein Angebot zum Auftrag bleibt ein Angebot; es wird nie von selbst ausgeführt.
+**Why it helps:** The coding chat receives exactly the task you clarified, without conversation noise. You can have an earlier question reused verbatim or refer to the existing message without adding it twice. An offer remains an offer; it is never executed on its own.
 
-**Braucht:** Live-Gespräch. [Modulgrenzen und Datenflüsse](docs/module.md).
+**Requires:** Live conversation. [Module boundaries and data flows](docs/module.md).
 
 ### Auto-Voice
 
-**Was es tut:** Nach Abschluss einer Antwort liest Auto-Voice eine kurze Zusammenfassung vor. Die Ausgabe hat ein eigenes Symbol und einen eigenen Status; das Mikrofon bleibt aus. Auto-Voice und Live können nicht gleichzeitig laufen.
+**What it does:** After an answer completes, Auto-Voice reads a short summary aloud. The output has its own icon and status; the microphone stays off. Auto-Voice and Live cannot run at the same time.
 
-**Warum es hilft:** Du bekommst den Kern einer langen Antwort mit, ohne sie erneut zu lesen oder den Sprecher manuell zu starten. Die Zusammenfassung ist vom vollständigen Vorlesen getrennt und ersetzt es nicht.
+**Why it helps:** You get the core of a long answer without reading it again or starting the speaker manually. The summary is separate from full read-aloud and does not replace it.
 
-**Braucht:** OpenCode-Integration und Vorlesen.
+**Requires:** OpenCode integration and read-aloud.
 
-### Sprachsteuerung und Vorlagen
+### Voice controls and templates
 
-**Was es tut:** Stimme, Gesprächsprofil, Modell und Thinking Budget lassen sich per Sprache abfragen und ausdrücklich ändern. Die App liest die Auswahl zurück und bestätigt sie; bloße Erwähnungen, Zitate oder Verneinungen schreiben nichts. Für jede Stimme lassen sich Antwortstil und Gesprächsvorlagen speichern.
+**What it does:** Voice, conversation profile, model, and thinking budget can be queried and explicitly changed by voice. The app reads the selection back and confirms it; mere mentions, quotes, or negations write nothing. You can save a reply style and conversation templates.
 
-**Warum es hilft:** Du musst für eine andere Tonalität nicht in die OpenCode-Konfiguration wechseln. Den Antwortstil speicherst du pro Stimme; eine Vorlage lässt sich unabhängig davon aktivieren.
+**Why it helps:** You do not have to switch to the OpenCode configuration for a different tone. You save the reply style per voice; a template can be activated independently.
 
-**Braucht:** Live-Gespräch.
+**Requires:** Live conversation.
 
 <p align="center">
-  <img src="docs/screenshots/05-einstellungen.png" alt="Einstellungen für Stimme, Antwortstil und Gesprächsvorlagen" width="360">
+  <img src="docs/screenshots/05-settings.png" alt="Settings for voice, reply style, and conversation templates" width="360">
 </p>
 
-### Weitere Module
+### Other modules
 
-- **Zweitmeinung:** „Frag das große Modell“ öffnet eine beratende Antwort über ein konfigurierbares Modell. Sie führt keinen Auftrag aus und wechselt nicht das Modell des Hauptchats.
-- **Voice-Erinnerungen:** Bestätigte Vorlieben bleiben lokal in einem SQLite-Profil, unabhängig vom Modell. Maximal 8.000 Tokens, keine Aufnahme in Übergaben oder Expertenanfragen. Standardmäßig ist eine Bestätigung nötig; für ausdrücklich genannte dauerhafte Vorlieben kann die Zustimmung pro Live-Gespräch gelten.
-- **Verlaufslog:** Hauptchat und Live-Ereignisse landen mit Zeitstempel und Nachrichten-ID in einem lokalen JSONL. Das Log ist auch ohne Live nutzbar und hat keinen Web-Lesezugriff.
-- **Mobile Oberfläche ohne Sprache:** Du kannst die Touch-Anpassungen auch ohne Sprachfunktionen einrichten. Größere Touch-Ziele, 16px-Inputs gegen iOS-Zoom und ein kompakter Composer gehören dazu.
+- **Second opinion:** “Ask the big model” opens an advisory answer from a configurable model. It does not execute a task and does not switch the main chat model.
+- **Voice memories:** Confirmed preferences stay local in a SQLite profile, independent of the model. Up to 8,000 tokens, never included in handoffs or expert requests. Confirmation is required by default; for explicitly stated durable preferences, consent can apply per live conversation.
+- **History log:** Main chat and live events are stored in a local JSONL with timestamps and message IDs. The log works without Live and has no web read access.
+- **Mobile UI without voice:** You can set up the touch adjustments without any voice features. Larger touch targets, 16px inputs against iOS zoom, and a compact composer are included.
 
-## Voraussetzungen
+## Requirements
 
-- **Windows 10/11** mit PowerShell 5.1 als Zielplattform des Installers.
-- **Node.js 22.13 oder neuer** für Proxy und Browser-Anpassung.
-- **Python 3.11 oder neuer** für die Sprachbrücke und das Diktat.
-- **OpenCode V2 Desktop** für den iPhone-Modus; die native Sitzung muss bereits laufen.
-- **Tailscale** für die private Verbindung; kein Funnel und kein öffentliches Remote-Hosting.
-- **OmniVoice** als separater Dienst für das Vorlesen; die Bibliothek, Gewichte und private Stimmen gehören nicht zum Paket.
+- **Windows 10/11** with PowerShell 5.1 as the installer's target platform.
+- **Node.js 22.13 or newer** for the proxy and browser adjustments.
+- **Python 3.11 or newer** for the voice bridge and dictation.
+- **OpenCode V2 Desktop** for the iPhone mode; the native session must already be running.
+- **Tailscale** for the private connection; no Funnel and no public remote hosting.
+- **OmniVoice** as a separate service for read-aloud; the library, weights, and private voice recordings are not part of the package.
 
-OpenCode-Updates können Weboberfläche oder experimentelle API ändern. Es gibt keine pauschale Versionsfreigabe. Die [Prüfanleitung](docs/entwicklung.md) trennt Modultests von der Abnahme auf einem echten iPhone.
+OpenCode updates can change the web UI or the experimental API. There is no blanket version approval. The [verification guide](docs/entwicklung.md) separates module tests from acceptance on a real iPhone.
 
-## Sicherheit und Datenfluss
+## Security and data flow
 
-- Der Proxy bindet nur auf **Loopback** und ergänzt die native Oberfläche um same-origin CSS, JavaScript und AudioWorklet. Die OpenCode-Anmeldung bleibt erhalten.
-- Die private Tailscale-Route zeigt auf den lokalen Proxy, nicht auf einen öffentlichen Dienst. Funnel ist ausgeschlossen.
-- Proxy und Sprachbrücke teilen sich ein zufälliges Prozess-Token; der Browser bekommt es nicht. Host-, Origin- und Fetch-Metadata-Prüfungen begrenzen den Zugriff.
-- Audio, Modelle, Erinnerungen und Logs bleiben auf dem Rechner. Das Repository enthält keine Sprachaufnahmen, Gewichte, Zugangsdaten oder lokalen Konfigurationen.
-- Es wird keine zweite OpenCode-Instanz gestartet. Die vorhandene Sitzung, ihre Modelle und ihre Dateien bleiben die Quelle der Wahrheit.
+- The proxy binds to **loopback** only and adds same-origin CSS, JavaScript, and AudioWorklet to the native UI. The OpenCode login remains in place.
+- The private Tailscale route points to the local proxy, not to a public service. Funnel is excluded.
+- The proxy and voice bridge share a random process token; the browser never receives it. Host, origin, and Fetch Metadata checks restrict access.
+- Audio, models, memories, and logs stay on the machine. The repository contains no voice recordings, weights, credentials, or local configuration.
+- No second OpenCode instance is started. The existing session, its models, and its files remain the source of truth.
 
-## Stand und Grenzen
+## Status and limits
 
-**Version 0.2.1.** 54 Node- und 10 Python-Tests sind grün. Die Auslieferungs-ZIP wird auf private Dateien, UTF-8 und CRC geprüft; die bestehende private Auslieferung bleibt von der Veröffentlichung getrennt.
+**Version 0.2.1.** 54 Node and 10 Python tests pass. The delivery ZIP is checked for private files, UTF-8, and CRC; the existing private delivery remains separate from publication.
 
-Offen sind die Abnahme auf einem sauberen Windows-System, der echte Modell-Download unter Windows PowerShell 5.1, die Probe mit einem echten OmniVoice-Adapter und die gekoppelte iPhone-PWA. Der lokale TTS-Dummy und die statischen Oberflächentests ersetzen diese Nachweise nicht.
+Still open: acceptance on a clean Windows machine, the real model download under Windows PowerShell 5.1, a probe with a real OmniVoice adapter, and the paired iPhone PWA. The local TTS dummy and the static UI tests do not replace those checks.
 
-## Lizenz
+## License
 
-Der Projektcode steht unter der [MIT-Lizenz](LICENSE). Abhängigkeiten wie sherpa-onnx, OmniVoice und OpenCode behalten ihre eigenen Lizenzen.
+The project code is licensed under the [MIT License](LICENSE). Dependencies such as sherpa-onnx, OmniVoice, and OpenCode retain their own licenses.
 
-## Weiterlesen
+## Further reading
 
-- [Installation und Start](docs/installation.md)
-- [Module, Grenzen und Datenflüsse](docs/module.md)
-- [Voice Transcript für eigene Apps](docs/voice-transcript.md)
-- [OmniVoice separat einrichten](docs/omnivoice.md)
-- [Entwicklung und Prüfung](docs/entwicklung.md)
+- [Installation and start](docs/installation.md)
+- [Modules, boundaries, and data flows](docs/module.md)
+- [Voice Transcript for your own apps](docs/voice-transcript.md)
+- [Set up OmniVoice separately](docs/omnivoice.md)
+- [Development and verification](docs/entwicklung.md)

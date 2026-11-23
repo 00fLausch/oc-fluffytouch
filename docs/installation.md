@@ -1,18 +1,18 @@
 # Installation
 
-Führe die Befehle aus dem entpackten Projektordner in Windows PowerShell 5.1 oder neuer aus. Für Standalone brauchst du einen lokalen Windows-Rechner; für OpenCode zusätzlich laufendes OpenCode V2 Desktop, Node.js ab 22.13 und Tailscale auf PC und iPhone. Die Audio-Module brauchen **Python 3.11 oder neuer**; für eine frische Einrichtung ist 3.11 der getestete Ausgangspunkt. Der Installer braucht keine globale Python-Paketinstallation.
+Run the commands from the unpacked project folder in Windows PowerShell 5.1 or newer. Standalone requires a local Windows machine; OpenCode additionally requires a running OpenCode V2 Desktop, Node.js 22.13 or newer, and Tailscale on both PC and iPhone. The audio modules need **Python 3.11 or newer**; 3.11 is the tested starting point for a fresh setup. The installer does not need a global Python package installation.
 
-## Was der Installer prüft
+## What the installer checks
 
-1. **Ziel und Module wählen.** Gib die Nummern der Funktionen getrennt durch Kommas ein. Erforderliche Module werden ergänzt und vor einer Änderung aufgelistet. Beispiel: Live benötigt Transkript und Vorlesen; Auto-Voice benötigt nur Vorlesen.
-2. **Vorhandenes erkennen.** Das Setup prüft für die gewählte Kombination auf Python und tatsächlich importierbare Pakete, auf die vier Parakeet-Dateien und bei Bedarf auf den lokalen OmniVoice-HTTP-Endpunkt. Im OpenCode-Modus kommen Node.js, der laufende Desktop-Prozess und der Tailscale-Status dazu. Das Skript prüft die Voice-Erinnerungen zusätzlich auf ihren Tokenzähler.
-3. **Fehlendes einrichten.** Python-Pakete installiert das Setup in `.venv` im Projekt; `js-tiktoken` nur für Voice-Erinnerungen. Ein fehlendes Parakeet-Modell kann es nach Zustimmung aus der offiziellen Quelle laden. Python entpackt daraus die vier benötigten Dateien, ohne `tar.exe`. Fehlende Systemprogramme, OpenCode, Tailscale-Anmeldung und den separaten OmniVoice-Dienst richtest du mit der jeweils ausgegebenen Anleitung ein. Eine bestehende Installation oder fremde virtuelle Umgebung wird nicht umgeschrieben.
-4. **Auswahl speichern.** `fluffytouch.local.json` enthält die aktivierten Module und lokalen Pfade. Gleiche Auswahl und Voraussetzungen erfordern beim nächsten Lauf keinen erneuten Download. Kein OpenCode-Dienst und keine Freigabe werden beim Installieren gestartet.
-5. **Startanweisung ausführen.** Der Starter liest diese Auswahl und startet nur die passenden Projektkomponenten. Beim iPhone-Start prüft er zusätzlich Dienst, native API, HTML, freien Port und private Serve-Route. Eine fremde Route oder ein Funnel auf dem gewählten Port führt zum Abbruch, nicht zu einer Umstellung.
+1. **Choose target and modules.** Enter the feature numbers separated by commas. Required modules are added and listed before any change. For example, Live needs Transcript and Read-aloud; Auto-Voice needs only Read-aloud.
+2. **Detect what exists.** For the selected combination, setup checks Python and actually importable packages, the four Parakeet files, and, if needed, the local OmniVoice HTTP endpoint. In OpenCode mode it also checks Node.js, the running desktop process, and Tailscale status. For voice memories it additionally checks the token counter.
+3. **Set up what is missing.** Setup installs Python packages into `.venv` in the project; `js-tiktoken` only for voice memories. It can download a missing Parakeet model from the official source after your approval. Python extracts the four required files without `tar.exe`. For missing system programs, OpenCode, the Tailscale login, and the separate OmniVoice service, follow the instructions printed by the installer. An existing installation or a foreign virtual environment is not rewritten.
+4. **Save the selection.** `fluffytouch.local.json` contains the enabled modules and local paths. The same selection and prerequisites do not require another download on the next run. Installing does not start an OpenCode service or a public route.
+5. **Run the start instruction.** The starter reads this selection and starts only the matching project components. For the iPhone start it also checks the service, native API, HTML, free port, and private serve route. A foreign route or a Funnel on the selected port aborts instead of being replaced.
 
-`-Check` prüft ohne Schreiben, Installation, Download oder Start. Ein Exitcode `2` steht für fehlende Komponenten oder nötige Handarbeit. `-VoicePython` und `-ModelDir` erlauben vorhandene kompatible Umgebungen und Modelle; der Pfad zu einer mit `-VoicePython` ausdrücklich gewählten Umgebung wird nur geprüft. `-Yes` bestätigt Paketinstallation und Konfiguration, aber einen fehlenden Modell-Download im automatisierten Lauf erst zusammen mit `-DownloadModel`.
+`-Check` validates without writing, installing, downloading, or starting. Exit code `2` indicates missing components or required manual work. `-VoicePython` and `-ModelDir` allow existing compatible environments and models; the path to an environment explicitly selected with `-VoicePython` is only checked. `-Yes` confirms package installation and configuration, but a missing model download in an automated run only together with `-DownloadModel`.
 
-## Nur Transkript
+## Transcript only
 
 ```powershell
 .\Install-OCFluffyTouch.ps1 -Check -Mode Standalone -Features transcript
@@ -20,29 +20,29 @@ Führe die Befehle aus dem entpackten Projektordner in Windows PowerShell 5.1 od
 .\Start-OCFluffyTouch.ps1
 ```
 
-Die API hört standardmäßig auf `http://127.0.0.1:14974`. Mit Strg+C beendest du sie. Bei einem belegten Port kannst du mit `-VoicePort` einen anderen wählen. [Ein WAV- und ein Streaming-Beispiel](voice-transcript.md) zeigen, wie deine App Text erhält.
+The API listens on `http://127.0.0.1:14974` by default. Press Ctrl+C to stop it. If the port is in use, choose another one with `-VoicePort`. [The WAV and streaming examples](voice-transcript.md) show how your app receives text.
 
-## Diktat im bestehenden OpenCode-Chat
+## Dictation in an existing OpenCode chat
 
-1. OpenCode Desktop öffnen und Windows wach lassen. Tailscale auf dem PC und iPhone im selben privaten Tailnet anmelden. HTTPS und Zugriffsregeln müssen den privaten Zugriff erlauben.
-2. `.\Install-OCFluffyTouch.ps1 -Mode OpenCode -Features transcript` ausführen. Damit erscheint das Mikrofon am nativen Eingabefeld, ohne Live-Agent oder Vorlesen. Für andere Kombinationen den Installer interaktiv erneut öffnen.
-3. `.\Start-OCFluffyTouch.ps1 -Pair` ausführen. Das Skript verwendet standardmäßig HTTPS-Port `8443`, Proxy `14973`, Voice `14974`. `-Port`, `-ProxyPort` und `-VoicePort` erlauben andere freie Ports. Es richtet nur die ausgewählte private Serve-Route ein; kein Funnel, kein Reset.
-4. Den von OpenCode ausgegebenen Einmal-Link direkt in Safari auf dem iPhone öffnen. Nicht speichern, in eine Datei oder Transkription umleiten oder teilen. Bei Ablauf erneut mit `-Pair` starten.
-5. Optional über **Teilen → Zum Home-Bildschirm** hinzufügen. Wenn iOS dort erneut eine Anmeldung verlangt, einen neuen Einmal-Link verwenden.
+1. Open OpenCode Desktop and keep Windows awake. Sign in to Tailscale on the PC and iPhone in the same private tailnet. HTTPS and access rules must allow the private connection.
+2. Run `.\Install-OCFluffyTouch.ps1 -Mode OpenCode -Features transcript`. The microphone appears on the native composer, without the live agent or read-aloud. Open the installer interactively again for other combinations.
+3. Run `.\Start-OCFluffyTouch.ps1 -Pair`. The script uses HTTPS port `8443`, proxy `14973`, and voice `14974` by default. `-Port`, `-ProxyPort`, and `-VoicePort` allow other free ports. It sets up only the selected private serve route; no Funnel and no reset.
+4. Open the one-time link printed by OpenCode directly in Safari on the iPhone. Do not save it, redirect it to a file or transcript, or share it. If it expires, run with `-Pair` again.
+5. Optionally add it via **Share → Add to Home Screen**. If iOS asks you to sign in again there, use a new one-time link.
 
-Ohne `-Pair` startet der Starter die gewählte Kombination ohne neuen Einmal-Link. Nach einem Windows-Neustart erst OpenCode öffnen, dann den Starter ausführen. Bei einem Wechsel von der älteren ZIP oder einer anderen Modulwahl die zugehörigen fluffyTouch-Prozesse neu starten und die iPhone-Web-App neu laden. Bei „andere Konfiguration“ oder „gehören nicht als Paar zusammen“ die Prozesse am **gewählten** Proxy-/Voice-Port prüfen. Beende nur eindeutig identifizierte Prozesse dieser Paketinstallation. OpenCode und eine andere private Installation bleiben dabei unberührt.
+Without `-Pair`, the starter launches the selected combination without a new one-time link. After a Windows restart, open OpenCode first and then run the starter. When switching from the older ZIP or a different module selection, restart the matching fluffyTouch processes and reload the iPhone web app. For “andere Konfiguration” (other configuration) or “gehören nicht als Paar zusammen” (do not belong together as a pair), check the processes on the **selected** proxy/voice ports. Stop only processes that are clearly identified as belonging to this package installation. OpenCode and another private installation remain untouched.
 
-## Beratungsmodell wählen
+## Choose a consultation model
 
-Wenn du `expert` auswählst, fragt der Installer nach `Anbieter/Modell-ID`; im nicht interaktiven Lauf gibst du `-ExpertModel 'Anbieter/Modell-ID'` an. Verwende die exakte Referenz aus der Modellliste von OpenCode. Bei „Frag das große Modell“ prüft die App dieses Modell. Sie wechselt weder das Hauptchatmodell noch startet sie einen Auftrag. Ohne passende Auswahl gibt es keine automatische Ersatzwahl.
+If you select `expert`, the installer asks for `provider/model-id`; in a non-interactive run, pass `-ExpertModel 'provider/model-id'`. Use the exact reference from the OpenCode model list. When you say “Ask the big model”, the app checks this model. It neither switches the main chat model nor starts a task. Without a matching selection there is no automatic fallback.
 
-## Wenn etwas fehlt
+## When something is missing
 
-| Meldung | Nächster Schritt |
+| Message | Next step |
 | --- | --- |
-| Python oder Node fehlt | Die im Installer angegebene Herstellerseite verwenden; danach neues PowerShell-Fenster öffnen und Prüfung wiederholen. |
-| Modell fehlt oder lädt nicht | [Voice Transcript](voice-transcript.md) prüfen. Alle vier INT8-Dateien müssen im selben Ordner liegen. Ein Datei-Fund ist noch kein erfolgreicher Sprachtest. |
-| OmniVoice fehlt | [Kompatibilitätsanleitung](omnivoice.md) lesen oder Vorlesen und davon abhängige Module abwählen. |
-| Keine Sitzung oder kein Mikrofon in Safari | Tailscale-Verbindung und native Paarung prüfen, Mikrofonfreigabe beim Antippen zulassen. Home-Bildschirm-App schließen und erneut öffnen. |
-| Route bereits belegt | Anderen privaten HTTPS-Port wählen. Den fremden Eintrag nicht löschen. |
-| OpenCode nach Update nicht kompatibel | Starter-Ausgabe und [Entwicklungsanleitung](entwicklung.md) prüfen. Browser-Erweiterung und Service-Worker hängen von Aufbau und Version der originalen Oberfläche ab. |
+| Python or Node is missing | Use the vendor page shown by the installer; then open a new PowerShell window and run the check again. |
+| Model is missing or does not load | Check [Voice Transcript](voice-transcript.md). All four INT8 files must be in the same folder. Finding the files is not a successful speech test. |
+| OmniVoice is missing | Read the [compatibility guide](omnivoice.md) or deselect Read-aloud and the modules that depend on it. |
+| No session or no microphone in Safari | Check the Tailscale connection and native pairing; allow microphone access when prompted. Close and reopen the home-screen app. |
+| Route already in use | Choose a different private HTTPS port. Do not delete the foreign entry. |
+| OpenCode is incompatible after an update | Check the starter output and the [development guide](entwicklung.md). The browser extension and service worker depend on the structure and version of the original UI. |

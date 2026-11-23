@@ -1,17 +1,17 @@
-# Prüfungen und Veröffentlichung
+# Tests and release
 
-## Lokale Tests
+## Local tests
 
-Im Projektordner mit Node.js ab 22.13:
+In the project folder with Node.js 22.13 or newer:
 
 ```powershell
 npm.cmd install --ignore-scripts
 npm.cmd test
 ```
 
-Die Node-Tests verwenden Dummys für OpenCode und temporäre Daten für Logs und Speicher. Sie prüfen unter anderem Proxy, HTTP-/WebSocket-Weitergabe, Mikrofon-Flush, Audioreihenfolge, Einstellungen, Übergabe, Rückfragen und Privatsphäre.
+The Node tests use dummies for OpenCode and temporary data for logs and storage. They cover, among other things, the proxy, HTTP/WebSocket forwarding, microphone flush, audio order, settings, handoff, follow-up questions, and privacy.
 
-Für die Python-Tests reicht eine Testumgebung ohne Gewichte, OmniVoice oder OpenCode:
+For the Python tests, an environment without weights, OmniVoice, or OpenCode is enough:
 
 ```powershell
 py -3.11 -m venv .venv-test
@@ -19,52 +19,52 @@ py -3.11 -m venv .venv-test
 & .\.venv-test\Scripts\python.exe -B -m unittest discover -p 'test_*.py'
 ```
 
-Die Tests prüfen unter anderem den Cache ohne Referenzstimme, TTS-Abbruch ohne Fallback, abgeschnittene WAVs, lokale Zugriffsprüfungen und das Entpacken eines künstlichen Modellarchivs. `python .\voice-bridge.py --self-test` prüft zusätzlich Resampling und Modelldateien, aber keine echte Transkription.
+The tests cover, among other things, caching without a reference voice, TTS abort without fallback, truncated WAVs, local access checks, and unpacking an artificial model archive. `python .\voice-bridge.py --self-test` additionally checks resampling and model files, but not real transcription.
 
-## Geprüft in 0.2.1
+## Verified in 0.2.1
 
-54 Node- und 10 Python-Tests bestanden. Die drei neuen Node-Tests decken übernommene Aufträge auf späteren Seiten, den Abbruch bei nicht auffindbaren IDs sowie das Mitscrollen ab, ohne die Leseposition oben zu überschreiben. Alle 31 ZIP-Dateien lassen sich streng als UTF-8 lesen. Das iPhone-Verhalten wurde für diese Fassung noch nicht am Gerät geprüft.
+54 Node and 10 Python tests passed. The three new Node tests cover adopted tasks on later pages, aborting when an ID cannot be found, and following the timeline without overriding the reading position at the top. All 31 ZIP files can be read strictly as UTF-8. The iPhone behavior has not yet been tested on a device for this version.
 
-## Weitere Nachweise aus 0.2.0
+## Further evidence from 0.2.0
 
-Windows PowerShell 5.1 hat alle vier Skripte geparst sowie einen nativen Prozess mit Ausgabe auf stderr ohne Abbruch geprüft. Der Standalone-Installer hat in einer frischen Projektumgebung die Python-Pakete installiert und ein vorhandenes Parakeet-Modell wiederverwendet. `-Check` schrieb nichts, eine Wiederholung ließ die Konfiguration unverändert. Der Starter lieferte mit CPU-Parakeet den synthetischen Satz „Der Mikrofontest funktioniert heute.“ über WAV und WebSocket, beim WebSocket auch einen Zwischenstand.
+Windows PowerShell 5.1 parsed all four scripts and checked a native process writing to stderr without aborting. The Standalone installer installed the Python packages in a fresh project environment and reused an existing Parakeet model. `-Check` wrote nothing, and a repeat left the configuration unchanged. With CPU Parakeet, the starter delivered the synthetic sentence “Der Mikrofontest funktioniert heute.” over WAV and WebSocket, including an interim result over WebSocket.
 
-Mit simuliertem OpenCode-Login und einem lokalen TTS-Dummy lief der WebSocket vom Node-Proxy bis zur Python-Brücke auch ohne Referenzstimme. Eine Wiederholung kam aus dem Cache, ohne zweiten TTS-Aufruf. Der OpenCode-Installationscheck lief rein lesend; der Starter für das echte OpenCode-Profil wurde dabei nicht ausgeführt.
+With a simulated OpenCode login and a local TTS dummy, the WebSocket ran from the Node proxy to the Python bridge without a reference voice. A repeat came from the cache without a second TTS call. The OpenCode installation check ran read-only; the starter for the real OpenCode profile was not executed.
 
-## Noch offen vor Veröffentlichung
+## Still open before release
 
-Auf einer frischen Windows-VM oder einem anderen Rechner den genehmigten Upstream-Download testen. Das simulierte TTS ersetzt keine Probe mit einem echten OmniVoice-Adapter. Im gepaarten OpenCode-Profil am physischen iPhone testen: leises Diktat, letzter Satz vor Senden, Unterbrechung, Vorlesen und Pause, Auto-Voice und eine neue, unkritische Coding-Frage mit Rückfrage. Auch eine zweite manuelle Nachricht während laufender Arbeit testen. Im Verlauf nach angenommener ID abgleichen, ob die gehörte Ausgabe die Frage tatsächlich beantwortet. Einen Versandbeleg nicht mit einer inhaltlichen Antwort verwechseln.
+On a fresh Windows VM or another machine, test the approved upstream download. The simulated TTS does not replace a probe with a real OmniVoice adapter. In the paired OpenCode profile on a physical iPhone, test quiet dictation, the last sentence before Send, interruption, read-aloud and pause, Auto-Voice, and a new, unproblematic coding question with a follow-up question. Also test a second manual message while work is running. In the history, compare the admitted ID with whether the audio you heard actually answers the question. Do not confuse a delivery receipt with a substantive answer.
 
-## Dateiverzeichnis
+## File layout
 
 ```text
 oc-fluffytouch/
-  README.md                    Projektstart und Funktionswahl
-  Install-OCFluffyTouch.ps1    Voraussetzungen, Pakete, Auswahl
-  Start-OCFluffyTouch.ps1      Start des gewählten Profils
-  Start-OpenCodeTouch.ps1      interne OpenCode-/Tailscale-Anbindung
-  setup-common.ps1             gemeinsame Prüfungen
-  features.json                Module und Pflichtabhängigkeiten
-  requirements-audio.txt       Python-Basis für Audio
-  requirements-asr.txt         Parakeet-Laufzeit
-  requirements-tts.txt         Client für den OmniVoice-Dienst
-  extract-model.py             Entpackt die vier Modell-Dateien
-  package.json                 Node-Abhängigkeit und Testbefehl
-  voice-bridge.py               Audio-API für ASR und optionales TTS
-  mobile-proxy.cjs              Loopback-Proxy und mobile Webanpassungen
-  mobile-ios.js                 Browser-Adapter für OpenCode
-  mobile-worklet.js             Audioaufnahme und Wiedergabe
-  voice-memory.cjs              persönliche SQLite-Erinnerungen
-  history-log.cjs               lokaler Diagnoselog-Speicher
-  *.test.cjs, test_*.py          automatisierte Regressionstests
-  docs/                         Installation, Module und externe Dienste
-  examples/transcribe_wav.py    minimaler API-Client
+  README.md                    Project start and feature selection
+  Install-OCFluffyTouch.ps1    Prerequisites, packages, selection
+  Start-OCFluffyTouch.ps1      Start of the selected profile
+  Start-OpenCodeTouch.ps1      Internal OpenCode/Tailscale integration
+  setup-common.ps1             Shared checks
+  features.json                Modules and required dependencies
+  requirements-audio.txt       Python audio base
+  requirements-asr.txt         Parakeet runtime
+  requirements-tts.txt         Client for the OmniVoice service
+  extract-model.py             Extracts the four model files
+  package.json                 Node dependency and test command
+  voice-bridge.py              Audio API for ASR and optional TTS
+  mobile-proxy.cjs             Loopback proxy and mobile web adjustments
+  mobile-ios.js                Browser adapter for OpenCode
+  mobile-worklet.js            Audio recording and playback
+  voice-memory.cjs             Personal SQLite memories
+  history-log.cjs              Local diagnostic log store
+  *.test.cjs, test_*.py        Automated regression tests
+  docs/                        Installation, modules, and external services
+  examples/transcribe_wav.py   Minimal API client
 ```
 
 ## Repository
 
-GitHub-Name: `oc-fluffytouch`. Projektbeschreibung: *Modular voice tools for OpenCode: local dictation, read-aloud, and a private iPhone companion for your existing session.*
+GitHub name: `oc-fluffytouch`. Project description: *Modular voice tools for OpenCode: local dictation, read-aloud, and a private iPhone companion for your existing session.*
 
-Quellen: [OpenCode V2 API](https://opencode.ai/v2/docs/api), [Tailscale Serve](https://tailscale.com/kb/1312/serve), [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), [OmniVoice](https://github.com/k2-fsa/OmniVoice). OpenCode nutzt die eigene native Anmeldung. Zusatzrouten bleiben privat und lokale Audio-Endpunkte auf Loopback. Kein Funnel- oder öffentlicher Remote-Hosting-Modus.
+Sources: [OpenCode V2 API](https://opencode.ai/v2/docs/api), [Tailscale Serve](https://tailscale.com/kb/1312/serve), [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), [OmniVoice](https://github.com/k2-fsa/OmniVoice). OpenCode uses its own native login. Additional routes stay private and local audio endpoints stay on loopback. No Funnel or public remote hosting mode.
 
-Nicht in Releases gehören `fluffytouch.local.json`, Dateipfade der Entwicklungsmaschine, Pairing-Links, Sitzungsdaten, Audio, Modellgewichte, Datenbanken, Logs, `.venv` und `node_modules`. Der Projektcode steht unter der MIT-Lizenz; vor einer Veröffentlichung wird das Archiv zusätzlich auf private Dateien geprüft.
+Releases must not include `fluffytouch.local.json`, file paths from the development machine, pairing links, session data, audio, model weights, databases, logs, `.venv`, or `node_modules`. The project code is licensed under the MIT License; before a release, the archive is also checked for private files.
