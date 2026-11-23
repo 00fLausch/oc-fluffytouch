@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security report
+    url: https://github.com/00fLausch/oc-fluffytouch/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue.
+  - name: Documentation
+    url: https://github.com/00fLausch/oc-fluffytouch#readme
+    about: Read the README, installation guide, and module docs first.

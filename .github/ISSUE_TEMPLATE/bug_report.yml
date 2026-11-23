@@ -1,0 +1,119 @@
+name: Bug report
+description: Report a reproducible problem with OC fluffyTouch
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        **Do not include private data:** pairing links, tokens, tailnet names, private paths, chat logs, audio, or credentials. Redact them before submitting.
+
+        Please use the latest release and include enough detail to reproduce the problem.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: A short, specific description of the problem.
+      placeholder: The live panel stays on "Listening ..." after I return to the app.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps. Include the feature selection and what you clicked or said.
+      placeholder: |
+        1. Start with `-Mode OpenCode -Features transcript,read-aloud,live`.
+        2. Open the paired PWA on iPhone.
+        3. Start Live and switch to another app.
+        4. Return to the PWA.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Installation mode
+      options:
+        - Standalone
+        - OpenCode
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: OC fluffyTouch version
+      placeholder: 0.2.1
+    validations:
+      required: true
+  - type: input
+    id: features
+    attributes:
+      label: Enabled features
+      description: The feature names or numbers selected in the installer.
+      placeholder: transcript, read-aloud, live
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 23H2
+  - type: input
+    id: powershell
+    attributes:
+      label: PowerShell version
+      placeholder: 5.1.19041
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: v22.13.0
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: 3.11.9
+  - type: input
+    id: opencode
+    attributes:
+      label: OpenCode version
+      description: Only if you use the OpenCode mode.
+      placeholder: 2.0.29
+  - type: input
+    id: iphone
+    attributes:
+      label: iPhone/iPad and iOS version
+      description: Only if the problem happens on a mobile device.
+      placeholder: iPhone 15, iOS 18.1
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or error messages
+      description: Paste relevant output. Redact tokens, pairing links, private paths, and chat content.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed private data (tokens, pairing links, paths, chat logs).
+          required: true
+        - label: I can reproduce this on the latest release.
+          required: true
+        - label: I searched existing issues.
+          required: true

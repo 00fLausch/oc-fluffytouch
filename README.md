@@ -5,10 +5,53 @@
 OC fluffyTouch adds dictation, read-aloud, and a live conversation to the OpenCode web UI you already run. It does not replace the UI or start a second OpenCode instance. The native chat stays; a local proxy adds the voice features.
 
 <p align="center">
+  <img src="https://img.shields.io/github/v/release/00fLausch/oc-fluffytouch?display_name=tag&amp;label=release" alt="Latest release">
+  <img src="https://img.shields.io/badge/tests-54%20Node%20%2B%2010%20Python-brightgreen" alt="Tests: 54 Node and 10 Python">
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT">
+  <img src="https://img.shields.io/badge/platform-Windows%20%2B%20iPhone-0a7ea4" alt="Platform: Windows and iPhone">
+</p>
+
+<p align="center">
+  <a href="https://github.com/00fLausch/oc-fluffytouch/releases/latest/download/OC-fluffyTouch-Windows.zip">
+    <img src="https://img.shields.io/badge/download-Windows%20ZIP-2ea043?style=for-the-badge" alt="Download the Windows ZIP">
+  </a>
+</p>
+
+## Screenshots
+
+<p align="center">
   <img src="docs/screenshots/00-hero.png" alt="Three app views: read-aloud, voice modes, and live conversation" width="900">
 </p>
 
 *All screenshots show a demo session without private content.*
+
+## At a glance
+
+| Question | Short answer |
+| --- | --- |
+| **What can it do?** | Dictate, listen to answers, clarify ideas live, and hand off a precise coding task. |
+| **What does it look like?** | [Screenshot tour](#screenshots) with read-aloud, voice modes, and live conversation. |
+| **How do I install it?** | Unzip, run `.\Install-OCFluffyTouch.ps1`, then `.\Start-OpenCodeTouch.ps1 -Pair`. [Full guide](docs/installation.md). |
+| **What is already running?** | OpenCode V2 Desktop on Windows, Tailscale on PC and iPhone, and optional OmniVoice. No second OpenCode. |
+
+## Project status
+
+| Item | State |
+| --- | --- |
+| **Version** | 0.2.1 |
+| **Tests** | 54 Node + 10 Python, passing |
+| **Platforms** | Windows 10/11, iPhone/iPad (PWA) |
+| **License** | MIT |
+| **Open** | Clean-Windows acceptance, real OmniVoice adapter, physical iPhone test |
+| **Details** | [Status and limits](#status-and-limits) · [Changelog](CHANGELOG.md) |
+
+## Download
+
+[**Download the Windows ZIP**](https://github.com/00fLausch/oc-fluffytouch/releases/latest/download/OC-fluffyTouch-Windows.zip)
+
+The ZIP contains the guided installer, sources, docs, screenshots, and tests. It does not include OmniVoice, model weights, private voice recordings, credentials, or local configuration.
+
+Requires Windows 10/11, PowerShell 5.1, Node.js 22.13 or newer, Python 3.11 or newer, and OpenCode V2 Desktop for the iPhone mode. [Full requirements](#requirements) · [Installation](docs/installation.md)
 
 ## Why OC fluffyTouch?
 
@@ -151,12 +194,19 @@ OpenCode updates can change the web UI or the experimental API. There is no blan
 
 Still open: acceptance on a clean Windows machine, the real model download under Windows PowerShell 5.1, a probe with a real OmniVoice adapter, and the paired iPhone PWA. The local TTS dummy and the static UI tests do not replace those checks.
 
+## Contributing
+
+Bug reports and feature ideas are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first. For security issues, use [SECURITY.md](SECURITY.md) — do not open a public issue.
+
 ## License
 
 The project code is licensed under the [MIT License](LICENSE). Dependencies such as sherpa-onnx, OmniVoice, and OpenCode retain their own licenses.
 
 ## Further reading
 
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 - [Installation and start](docs/installation.md)
 - [Modules, boundaries, and data flows](docs/module.md)
 - [Voice Transcript for your own apps](docs/voice-transcript.md)
