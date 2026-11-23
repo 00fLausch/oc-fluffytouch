@@ -1,0 +1,8 @@
+{
+  "name": "oc-fluffytouch",
+  "version": "0.2.1",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": { "test": "node --test mobile-proxy.test.cjs mobile-worklet.test.cjs mobile-voice-handoff.test.cjs voice-memory.test.cjs history-log.test.cjs" },
+  "optionalDependencies": { "js-tiktoken": "1.0.21" }
+}

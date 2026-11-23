@@ -1,0 +1,11 @@
+{
+  "transcript": {"label":"Voice Transcript / Diktat","requires":[],"standalone":true},
+  "read-aloud": {"label":"Manuelles Vorlesen mit OmniVoice","requires":[],"standalone":true},
+  "live": {"label":"Live-Sprachgespraech","requires":["transcript","read-aloud"]},
+  "auto-voice": {"label":"Auto-Voice: kurze Zusammenfassungen","requires":["read-aloud"]},
+  "handoff": {"label":"Explizite Uebergabe an den Coding-Chat","requires":["live"]},
+  "settings": {"label":"Einstellungen per Sprache aendern","requires":["live"]},
+  "expert": {"label":"Zweitmeinung mit waehlbarem OpenCode-Modell","requires":["live"]},
+  "memory": {"label":"Persoenliche Voice-Erinnerungen (SQLite)","requires":["live"]},
+  "history": {"label":"Lokales Verlaufslog (mit Chattext)","requires":[]}
+}
